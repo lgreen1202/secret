@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will You Be My Valentine?</title>
+  <style>
+    /* Overall page styling */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: lightpink;
+      overflow: hidden; /* Hide scrollbars from falling hearts */
+      font-family: Arial, sans-serif;
+      position: relative;
+      height: 100vh; /* Full viewport height */
+    }
+
+    /* Center container absolutely */
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2; /* Ensure content appears above the hearts */
+      text-align: center;
+    }
+
+    img {
+      max-width: 80%;
+      height: auto;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    /* Falling hearts styling */
+    .heart {
+      position: fixed;
+      top: -50px;
+      color: red;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: 1;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Display the provided GIF -->
+    <img src="kiss.gif" alt="Kiss Gif" />
+    <h1>Will you be my valentine?</h1>
+    <!-- "Yes" button leads to yes.html; "No" button dodges the cursor -->
+    <button id="yesBtn" onclick="window.location.href='yes.html'">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <script>
+    // Function to create a falling heart element
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "&#10084;"; // Unicode for a heart symbol
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (10 + Math.random() * 30) + "px";
+      heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+      document.body.appendChild(heart);
+
+      // Remove the heart after its animation completes
+      heart.addEventListener("animationend", function () {
+        heart.remove();
+      });
+    }
+
+    // Continuously create hearts every 300 milliseconds
+    setInterval(createHeart, 300);
+
+    // Make the "No" button jump away when hovered over
+    const noBtn = document.getElementById("noBtn");
+    noBtn.addEventListener("mouseover", function () {
+      // Set the button to fixed positioning so it's relative to the viewport.
+      this.style.position = "fixed";
+
+      // Get the viewport dimensions
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const btnWidth = this.offsetWidth;
+      const btnHeight = this.offsetHeight;
+
+      // Calculate random positions ensuring the button stays within the viewport
+      const randomX = Math.random() * (vw - btnWidth);
+      const randomY = Math.random() * (vh - btnHeight);
+      this.style.left = randomX + "px";
+      this.style.top = randomY + "px";
+    });
+  </script>
+</body>
+</html>
