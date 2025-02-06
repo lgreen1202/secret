@@ -106,8 +106,8 @@
       const btnHeight = this.offsetHeight;
 
       // Calculate random positions ensuring the button stays within the viewport
-      const randomX = Math.random() * (vw - btnWidth);
-      const randomY = Math.random() * (vh - btnHeight);
+      const randomX = Math.random() * (vw - btnWidth - 800);
+      const randomY = Math.random() * (vh - btnHeight - 800);
       this.style.left = randomX + "px";
       this.style.top = randomY + "px";
     });
